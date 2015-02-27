@@ -24,7 +24,7 @@ public class CVSCargador {
         Arista arista;
         Vertice a, b;
         ContenedorAristas contAristas = new ContenedorAristas();
-        ConjuntoVertices vertices = new ConjuntoVertices();
+        Grafo vertices = new Grafo();
 
         while (line != null) {
             //si comienza por # es un comentario y nos lo saltamos

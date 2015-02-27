@@ -1,24 +1,42 @@
 package poda;
 
+import java.util.HashMap;
+
 public class Grafo {
 
-    private final int numVertices;
-    private ConjuntoVertices vertices;
+    final private HashMap<Integer, Vertice> conjunto;
 
-    public Grafo(int numVertices) {
-        this.numVertices = numVertices;
+    public Grafo() {
+        this.conjunto = new HashMap<>();
     }
 
-    public int getNumVertices() {
-        return numVertices;
-    }
-
-
-    public void añadirVertices(ConjuntoVertices vertices) {
-        this.vertices = vertices;
+    public void añadeVértice(Vertice v) {
+        if (v == null) {
+            return;
+        }
+        if (!conjunto.containsKey(v.getId())) {
+            conjunto.put(v.getId(), v);
+        }
     }
 
     public boolean esConexo() {
-        return vertices.esConexo();
+        return new EstructuraConexion(conjunto).estaTotalmenteConectado();
+    }
+
+    public boolean contiene(Vertice v) {
+        return conjunto.containsValue(v);
+    }
+
+    public void enlaza(Vertice a, Vertice aAñadir) {
+        conjunto.get(a.getId()).enlazar(aAñadir);
+
+    }
+
+    public int size() {
+        return this.conjunto.size();
+    }
+
+    public Vertice dameVertice(Integer id) {
+        return conjunto.get(id);
     }
 }
