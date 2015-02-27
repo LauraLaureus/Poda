@@ -25,8 +25,8 @@ class EstructuraConexion {
     private void exploraGrafo(Vertice v) {
         if (!estaVerticeConectado(v.getId())) {
             conecta(v.getId());
-            for (Vertice value : v.getPosibilidades().values()) {
-                exploraGrafo(value);
+            for (Integer value : v.getPosibilidades().values()) {
+                //PON TU CODIGO AQUI XD
             }
         }
     }
