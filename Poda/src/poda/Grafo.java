@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class Grafo {
 
     final private HashMap<Integer, Vertice> conjunto;
-
+    
     public Grafo() {
         this.conjunto = new HashMap<>();
     }
