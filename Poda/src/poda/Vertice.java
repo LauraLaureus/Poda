@@ -6,7 +6,7 @@ import java.util.Objects;
 public class Vertice {
 
     private final Integer id;
-    private final HashMap<Integer, Arista> posibilidades;
+    private final HashMap<Integer, Integer> posibilidades;
 
     public Vertice(Integer id) {
         this.id = id;
@@ -16,14 +16,14 @@ public class Vertice {
     public Integer getId() {
         return id;
     }
-
-    public void enlazar(Vertice v) {
+    //Modificado para que tenga que pasar el peso de la arista que referencia a este vértice
+    public void enlazar(Vertice v, int peso) {
         if (!posibilidades.containsKey(v.getId())) {
-            posibilidades.put(v.getId(), v);
+            posibilidades.put(v.getId(), peso);
         }
     }
 
-    public HashMap<Integer, Arista> getPosibilidades() {
+    public HashMap<Integer, Integer> getPosibilidades() {
         return posibilidades;
     }
 

@@ -27,8 +27,8 @@ public class Grafo {
         return conjunto.containsValue(v);
     }
 
-    public void enlaza(Vertice a, Vertice aAñadir) {
-        conjunto.get(a.getId()).enlazar(aAñadir);
+    public void enlaza(Vertice a, Vertice aAñadir, int peso) {
+        conjunto.get(a.getId()).enlazar(aAñadir, peso);
 
     }
 
