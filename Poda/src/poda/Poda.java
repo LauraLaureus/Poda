@@ -16,7 +16,7 @@ public class Poda {
         Grafo g = new Cargador("Entrada.txt").carga();
         System.out.println("Grafo Cargado con éxito.");
         
-        Podador podador = new Podador(g, pv.origen, pv.destino);
+        ArbolExtendido podador = new ArbolExtendido(g, pv.origen, pv.destino);
         Vertice[] solucion = podador.ejecutarPoda();
     }
 

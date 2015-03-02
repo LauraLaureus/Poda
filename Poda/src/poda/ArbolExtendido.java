@@ -2,7 +2,7 @@ package poda;
 
 import java.util.Stack;
 
-class Podador {
+public class ArbolExtendido {
     private final Grafo grafo;
     private final Vertice origen;
     private final Vertice destino;
@@ -10,7 +10,7 @@ class Podador {
     Stack<Vertice> caminoActual;
     Stack<Vertice> solucionParcial;
 
-    public Podador(Grafo grafo, Vertice origen, Vertice destino) {
+    public ArbolExtendido(Grafo grafo, Vertice origen, Vertice destino) {
         this.grafo = grafo;
         this.origen = origen;
         this.destino = destino;
@@ -24,6 +24,6 @@ class Podador {
         Vertice verticeActual = grafo.dameVertice(origen.getId());
 
         ramificarVértice(verticeActual);
-        return solucionParcial;
+        return solucionParcial; //pasar el stack a Vertice[]
     }
 }
