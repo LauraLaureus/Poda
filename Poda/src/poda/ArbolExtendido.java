@@ -1,6 +1,11 @@
 package poda;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Stack;
 
 public class ArbolExtendido {
@@ -64,10 +69,32 @@ public class ArbolExtendido {
     }
 
     private void ordenaPosibilidades(HashMap<Integer, Integer> posibilidades) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        /*Meter en árbol extendido ordenados por peso*/
+        ArrayList<Entry<Integer,Integer>> mapEntries = new ArrayList<>();
+        
+        for (Entry<Integer, Integer> entrySet : posibilidades.entrySet()) {
+            mapEntries.add(entrySet);
+        }
+        
+        Collections.reverseOrder( new Comparator<Entry<Integer, Integer>>() {
+            @Override
+            public int compare(Entry o1, Entry o2) {
+                 return (Integer) o1.getValue() - (Integer) o2.getValue();
+            }
+        });
+
+        for (Entry mapEntry : mapEntries) {
+            arbolExtendido.add(grafo.dameVertice((Integer) mapEntry.getKey()));
+        }
+        
     }
 
     private void podarRamas(Vertice verticeActual) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (Vertice v : arbolExtendido) {
+            if(Objects.equals(v.getId(), verticeActual.getId())) break;
+            else{
+                arbolExtendido.pop();
+            }
+        }
     }
 }

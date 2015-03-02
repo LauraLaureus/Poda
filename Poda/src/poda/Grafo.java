@@ -39,4 +39,9 @@ public class Grafo {
     public Vertice dameVertice(Integer id) {
         return conjunto.get(id);
     }
+
+    public HashMap<Integer, Vertice> getConjunto() {
+        return conjunto;
+    }
+    
 }

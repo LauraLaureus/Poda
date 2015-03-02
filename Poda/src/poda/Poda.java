@@ -1,8 +1,10 @@
 package poda;
 
+import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.Stack;
 
-public class Poda {
+public class Poda { 
    
     private class ParVertices{
         public Vertice origen;
@@ -16,8 +18,9 @@ public class Poda {
         Grafo g = new Cargador("Entrada.txt").carga();
         System.out.println("Grafo Cargado con éxito.");
         
-        ArbolExtendido podador = new ArbolExtendido(g, pv.origen, pv.destino);
-        Vertice[] solucion = podador.ejecutarPoda();
+        ArbolExtendido arbol = new ArbolExtendido(g, pv.origen, pv.destino);
+        Stack<Vertice> solucion = arbol.ejecutarPoda();
+        salida(solucion, g);
     }
 
     public static void leeOrigenDestino(Grafo g){
@@ -63,4 +66,29 @@ public class Poda {
       
     }
    
+    private static void salida(Stack<Vertice> solucion, Grafo g) {
+        
+        System.out.println("Este es el grafo leído.");
+        for (Entry vertice : g.getConjunto().entrySet()) {
+            System.out.println("Vertice: " + vertice.getKey());
+            System.out.println("Tiene la siguiente descendencia: ");
+            System.out.println(descendenciaToString(g.dameVertice((Integer) vertice.getKey())));
+        }
+        
+        System.out.println("Esta es la solución obtenida: ");
+        for (Vertice v : solucion) {
+            System.out.println(v.getId());
+        }
+        
+    }
+    
+    private static String descendenciaToString(Vertice dameVertice) {
+        String vecinos = "";
+        for (Integer hijo : dameVertice.getPosibilidades().keySet()) {
+            vecinos += hijo.toString();
+        }
+        
+        return vecinos;
+    }
+
 }

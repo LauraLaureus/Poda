@@ -23,18 +23,7 @@ public class Vertice {
         }
     }
 
-    //Desenlaza: denlaza todos lo vértices con peso mayor
-    public void desenlazar(Vertice comp){
-        
-        int peso = this.posibilidades.get(comp.id);
-        
-        for (Integer vecino : this.posibilidades.keySet()) {
-            if(this.posibilidades.get(vecino) >= peso){
-                this.posibilidades.remove(vecino);
-            }
-        }
-    }
-    
+   
     
     public HashMap<Integer, Integer> getPosibilidades() {
         return posibilidades;
