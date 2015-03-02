@@ -33,20 +33,24 @@ public class ArbolExtendido {
             //borrar datos de la lista cerrada
             
             ordenaPosibilidades(posibilidades);
+            
             Vertice hijoMenorPeso = arbolExtendido.pop();
             while (hijoMenorPeso != verticeActual){
+                
                 pesoActual = pesoActual + posibilidades.get(hijoMenorPeso.getId());
+                
                 if (null != pesoSolucionParcial && pesoActual <= pesoSolucionParcial){
-                    arbolExtendido.push(hijoMenorPeso);
+                    caminoActual.push(hijoMenorPeso);
+                    
                     ramificarVértice(hijoMenorPeso);
+                    
                 } else{
                     podarRamas(verticeActual); //saca de la pila hasta encontrar verticeActual
-                    
                 }
                 hijoMenorPeso = arbolExtendido.pop();
             }
-            
         }
+        caminoActual.pop();
     }
 
     public Stack<Vertice> ejecutarPoda() {
