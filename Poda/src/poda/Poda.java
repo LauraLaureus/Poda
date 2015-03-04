@@ -12,13 +12,16 @@ public class Poda {
     }
     
     static ParVertices pv;
+    static Vertice origen;
+    static Vertice destino;
     
     public static void main(String[] args) {
         System.out.println("Cargando Grafo...");
         Grafo g = new Cargador("Entrada.txt").carga();
         System.out.println("Grafo Cargado con éxito.");
         
-        ArbolExtendido arbol = new ArbolExtendido(g, pv.origen, pv.destino);
+        leeOrigenDestino(g);
+        ArbolExtendido arbol = new ArbolExtendido(g, origen, destino);
         Stack<Vertice> solucion = arbol.ejecutarPoda();
         salida(solucion, g);
     }
@@ -31,7 +34,6 @@ public class Poda {
             NO:mensaje de error y vuelve a empezar.
         */
         
-        Vertice origen,destino;
         Scanner teclado = new Scanner(System.in);
         int lectura;
         while (true){
@@ -57,13 +59,7 @@ public class Poda {
                     + "en el grafo ");
             
         }
-        
-        if(origen != null && destino != null) {
-            pv.origen = origen;
-            pv.destino = destino;
-        }
-           
-      
+              
     }
    
     private static void salida(Stack<Vertice> solucion, Grafo g) {

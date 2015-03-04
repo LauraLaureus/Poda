@@ -15,6 +15,7 @@ public class ArbolExtendido {
     Stack<Vertice> arbolExtendido;
     Stack<Vertice> caminoActual;
     Stack<Vertice> solucionParcial;
+    ArrayList<Vertice> listaCerrada;
     Integer pesoActual;
     Integer pesoSolucionParcial;
 
@@ -22,9 +23,10 @@ public class ArbolExtendido {
         this.grafo = grafo;
         this.origen = origen;
         this.destino = destino;
-        Stack<Vertice> arbolExtendido = new Stack<>();
-        Stack<Vertice> caminoActual = new Stack<>();
-        Stack<Vertice> SolucionParcial = new Stack<>();
+        listaCerrada = new ArrayList<>();
+        arbolExtendido = new Stack<>();
+        caminoActual = new Stack<>();
+        solucionParcial = new Stack<>();
     }
     
     private void ramificarVértice(Vertice verticeActual) {
@@ -34,14 +36,13 @@ public class ArbolExtendido {
             arbolExtendido.pop();
         }
         else{
+            listaCerrada.add(verticeActual);
             HashMap<Integer, Integer> posibilidades = verticeActual.getPosibilidades();
-            //borrar datos de la lista cerrada
-            
+            borrarDatosListaCerrada(posibilidades);
             ordenaPosibilidades(posibilidades);
             
             Vertice hijoMenorPeso = arbolExtendido.pop();
-            while (hijoMenorPeso != verticeActual){
-                
+            while (hijoMenorPeso != verticeActual){                
                 pesoActual = pesoActual + posibilidades.get(hijoMenorPeso.getId());
                 
                 if (null != pesoSolucionParcial && pesoActual <= pesoSolucionParcial){
@@ -65,7 +66,7 @@ public class ArbolExtendido {
         pesoActual = 0;
         ramificarVértice(verticeActual);
         
-        return solucionParcial; //pasar el stack a Vertice[]
+        return solucionParcial;
     }
 
     private void ordenaPosibilidades(HashMap<Integer, Integer> posibilidades) {
@@ -95,6 +96,13 @@ public class ArbolExtendido {
             else{
                 arbolExtendido.pop();
             }
+        }
+    }
+
+    private void borrarDatosListaCerrada(HashMap<Integer, Integer> posibilidades) {
+        for (Vertice vertice : listaCerrada) {
+            if (posibilidades.containsKey(vertice.getId()))
+                posibilidades.remove(vertice.getId());
         }
     }
 }
