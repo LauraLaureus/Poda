@@ -16,7 +16,6 @@ public class ArbolExtendido {
     Stack<Vertice> caminoActual;
     Stack<Vertice> solucionParcial;
     ArrayList<Vertice> listaCerrada;
-    Integer pesoActual;
     Integer pesoSolucionParcial;
 
     public ArbolExtendido(Grafo grafo, Vertice origen, Vertice destino) {
@@ -29,10 +28,11 @@ public class ArbolExtendido {
         solucionParcial = new Stack<>();
     }
     
-    private void ramificarVértice(Vertice verticeActual) {
+    private void ramificarVértice(Vertice verticeActual, int pesoCaminoActual) {
         if (verticeActual.equals(destino)){
+            System.out.println("solucion parcial encontrada");///
             solucionParcial = (Stack<Vertice>) caminoActual.clone();
-            pesoSolucionParcial = pesoActual;
+            pesoSolucionParcial = pesoCaminoActual;
             arbolExtendido.pop();
         }
         else{
@@ -42,16 +42,18 @@ public class ArbolExtendido {
             ordenaPosibilidades(posibilidades);
             
             Vertice hijoMenorPeso = arbolExtendido.pop();
-            while (hijoMenorPeso != verticeActual){                
-                pesoActual = pesoActual + posibilidades.get(hijoMenorPeso.getId());
+            Integer pesoHijoMenor;
+            while (hijoMenorPeso != verticeActual){ 
+                System.out.println(verticeActual.getId());////
+                pesoHijoMenor = pesoCaminoActual + posibilidades.get(hijoMenorPeso.getId());
                 
-                if (null != pesoSolucionParcial && pesoActual <= pesoSolucionParcial){
+                if (null == pesoSolucionParcial || pesoHijoMenor <= pesoSolucionParcial){
                     caminoActual.push(hijoMenorPeso);
                     
-                    ramificarVértice(hijoMenorPeso);
+                    ramificarVértice(hijoMenorPeso, pesoHijoMenor);
                     
                 } else{
-                    podarRamas(verticeActual); //saca de la pila hasta encontrar verticeActual
+                    podarRamas(verticeActual);
                 }
                 hijoMenorPeso = arbolExtendido.pop();
             }
@@ -63,8 +65,7 @@ public class ArbolExtendido {
         Vertice verticeActual = grafo.dameVertice(origen.getId());
         arbolExtendido.add(verticeActual);
         caminoActual.add(verticeActual);
-        pesoActual = 0;
-        ramificarVértice(verticeActual);
+        ramificarVértice(verticeActual, 0);
         
         return solucionParcial;
     }
@@ -77,12 +78,12 @@ public class ArbolExtendido {
             mapEntries.add(entrySet);
         }
         
-        Collections.reverseOrder( new Comparator<Entry<Integer, Integer>>() {
+        Collections.sort( mapEntries, Collections.reverseOrder(new Comparator<Entry<Integer, Integer>>() {
             @Override
             public int compare(Entry o1, Entry o2) {
-                 return (Integer) o1.getValue() - (Integer) o2.getValue();
+                return (Integer) o1.getValue() - (Integer) o2.getValue();
             }
-        });
+        }));
 
         for (Entry mapEntry : mapEntries) {
             arbolExtendido.add(grafo.dameVertice((Integer) mapEntry.getKey()));

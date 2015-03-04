@@ -12,15 +12,15 @@ public class Poda {
     }
     
     static ParVertices pv;
-    static Vertice origen;
-    static Vertice destino;
+    static Vertice origen = new Vertice(1);////
+    static Vertice destino =new Vertice (8);////
     
     public static void main(String[] args) {
         System.out.println("Cargando Grafo...");
         Grafo g = new Cargador("Entrada.txt").carga();
         System.out.println("Grafo Cargado con éxito.");
         
-        leeOrigenDestino(g);
+        //////leeOrigenDestino(g);
         ArbolExtendido arbol = new ArbolExtendido(g, origen, destino);
         Stack<Vertice> solucion = arbol.ejecutarPoda();
         salida(solucion, g);
