@@ -5,6 +5,13 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class Poda { 
+
+    private static void setOrigenDestino() {
+        System.out.println("El vértice origen es 1");
+        origen = new Vertice(1);
+        System.out.println("El vértice destino es 8");
+        destino = new Vertice(8);
+    }
    
     private class ParVertices{
         public Vertice origen;
@@ -12,15 +19,16 @@ public class Poda {
     }
     
     static ParVertices pv;
-    static Vertice origen = new Vertice(1);////
-    static Vertice destino =new Vertice (8);////
+    static Vertice origen;
+    static Vertice destino;
     
     public static void main(String[] args) {
         System.out.println("Cargando Grafo...");
         Grafo g = new Cargador("Entrada.txt").carga();
         System.out.println("Grafo Cargado con éxito.");
         
-        //////leeOrigenDestino(g);
+        setOrigenDestino(); //para auto-set del origen-destino
+        //leeOrigenDestino(g); para leer por consola
         ArbolExtendido arbol = new ArbolExtendido(g, origen, destino);
         Stack<Vertice> solucion = arbol.ejecutarPoda();
         salida(solucion, g);

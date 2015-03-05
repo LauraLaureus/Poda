@@ -29,41 +29,48 @@ public class ArbolExtendido {
     }
     
     private void ramificarVértice(Vertice verticeActual, int pesoCaminoActual) {
+        
+        caminoActual.push(verticeActual);
+        
         if (verticeActual.equals(destino)){
-            System.out.println("solucion parcial encontrada");///
             solucionParcial = (Stack<Vertice>) caminoActual.clone();
             pesoSolucionParcial = pesoCaminoActual;
+            
         }
         else{
+            //Añado el vértice actual a la lista cerrada
             listaCerrada.add(verticeActual);
+            
+            //Se sacan los hijos y se meten en el "arbolExtendido", quitando los que se encuentren en lista cerrada
             HashMap<Integer, Integer> posibilidades = verticeActual.getPosibilidades();
             borrarDatosListaCerrada(posibilidades);
             ordenaPosibilidades(posibilidades);
             
+            //inicializo bucle, cogiendo el Vértice del inicio de "arbolExtendido", que es el hijo de menor peso o el propio vertice
             Vertice hijoMenorPeso = arbolExtendido.peek();
             Integer pesoHijoMenor;
+            
             while (hijoMenorPeso != verticeActual){ 
-                System.out.println("Analizando hijo: "+hijoMenorPeso.getId()+ " del padre: " + verticeActual.getId());////
+
                 pesoHijoMenor = pesoCaminoActual + posibilidades.get(hijoMenorPeso.getId());
                 
+                //Si encuentra un hijo con camino más optimo que la solucion, entra en el
                 if (null == pesoSolucionParcial || pesoHijoMenor <= pesoSolucionParcial){
-                    caminoActual.push(hijoMenorPeso);
-                    
                     ramificarVértice(hijoMenorPeso, pesoHijoMenor);
-                    arbolExtendido.pop();
-                    hijoMenorPeso = arbolExtendido.peek();
-                } else{//eto ta bien
+                } else{//si no, poda los hijos
                     podarRamas(verticeActual);
-                    hijoMenorPeso = arbolExtendido.pop();
                 }
+                hijoMenorPeso = arbolExtendido.peek(); //se lee el nuevo vertice de arbolExpandido a tratar (hijo/verticeActual)
             }
         }
+        //Saco el verticeActual del arbolExtendido, que está en la parte top
+        arbolExtendido.pop();
+        //También saco el verticeActual del camino, porque retrocedemos
         caminoActual.pop();
     }
     public Stack<Vertice> ejecutarPoda() {
         Vertice verticeActual = grafo.dameVertice(origen.getId());
         arbolExtendido.add(verticeActual);
-        caminoActual.add(verticeActual);
         ramificarVértice(verticeActual, 0);
         
         return solucionParcial;
