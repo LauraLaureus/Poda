@@ -33,7 +33,6 @@ public class ArbolExtendido {
             System.out.println("solucion parcial encontrada");///
             solucionParcial = (Stack<Vertice>) caminoActual.clone();
             pesoSolucionParcial = pesoCaminoActual;
-            arbolExtendido.pop();
         }
         else{
             listaCerrada.add(verticeActual);
@@ -41,26 +40,26 @@ public class ArbolExtendido {
             borrarDatosListaCerrada(posibilidades);
             ordenaPosibilidades(posibilidades);
             
-            Vertice hijoMenorPeso = arbolExtendido.pop();
+            Vertice hijoMenorPeso = arbolExtendido.peek();
             Integer pesoHijoMenor;
             while (hijoMenorPeso != verticeActual){ 
-                System.out.println(verticeActual.getId());////
+                System.out.println("Analizando hijo: "+hijoMenorPeso.getId()+ " del padre: " + verticeActual.getId());////
                 pesoHijoMenor = pesoCaminoActual + posibilidades.get(hijoMenorPeso.getId());
                 
                 if (null == pesoSolucionParcial || pesoHijoMenor <= pesoSolucionParcial){
                     caminoActual.push(hijoMenorPeso);
                     
                     ramificarVértice(hijoMenorPeso, pesoHijoMenor);
-                    
-                } else{
+                    arbolExtendido.pop();
+                    hijoMenorPeso = arbolExtendido.peek();
+                } else{//eto ta bien
                     podarRamas(verticeActual);
+                    hijoMenorPeso = arbolExtendido.pop();
                 }
-                hijoMenorPeso = arbolExtendido.pop();
             }
         }
         caminoActual.pop();
     }
-
     public Stack<Vertice> ejecutarPoda() {
         Vertice verticeActual = grafo.dameVertice(origen.getId());
         arbolExtendido.add(verticeActual);
@@ -92,12 +91,7 @@ public class ArbolExtendido {
     }
 
     private void podarRamas(Vertice verticeActual) {
-        for (Vertice v : arbolExtendido) {
-            if(Objects.equals(v.getId(), verticeActual.getId())) break;
-            else{
-                arbolExtendido.pop();
-            }
-        }
+        while (arbolExtendido.peek() != verticeActual) arbolExtendido.pop();
     }
 
     private void borrarDatosListaCerrada(HashMap<Integer, Integer> posibilidades) {
